@@ -1,0 +1,18 @@
+services:
+  webhook:
+    build: .
+    ports:
+      - "127.0.0.1:8004:8000"
+    environment:
+      RATE_LIMIT_REQUESTS: "5"
+      RATE_LIMIT_WINDOW_SECONDS: "60"
+    init: true
+    stop_grace_period: 35s
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=16m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
